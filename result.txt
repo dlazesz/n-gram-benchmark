@@ -1,0 +1,37 @@
+Creating dummy text file
+Starting measurements
+MEMORY
+index
+Filename: ngram.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    58     20.1 MiB     20.1 MiB   @profile
+    59                             def mem(extra, inp, out, n, fun):
+    60     20.1 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+
+
+iter
+Filename: ngram.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    58     14.6 MiB     14.6 MiB   @profile
+    59                             def mem(extra, inp, out, n, fun):
+    60     14.6 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+
+
+frame
+Filename: ngram.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    58     14.6 MiB     14.6 MiB   @profile
+    59                             def mem(extra, inp, out, n, fun):
+    60     14.6 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+
+
+TIME
+index: 33.22100492299978
+iter: 1.2606244640010118
+frame: 2.135762376999992

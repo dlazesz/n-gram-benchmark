@@ -6,11 +6,14 @@ all:
 venv:
 	rm -rfv venv
 	python3 -m venv venv
+	./venv/bin/pip install wheel
 	./venv/bin/pip install -r requirements.txt
-	./venv/bin/pip freeze
 .PHONY: venv
 
 
 run:
-	@./venv/bin/python3 ngram.py
+	@echo "Creating dummy text file"
+	@./venv/bin/python3 lorem_text_gen.py --words=100000 > input.txt
+	@echo "Starting measurements"
+	@./venv/bin/python3 ngram.py -i input.txt -n 3
 .PHONY: run
