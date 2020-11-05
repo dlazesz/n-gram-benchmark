@@ -91,6 +91,14 @@ if __name__ == '__main__':
     extra_var, iterator, output_fh, ngram_length = general_setup(setup_frame, in_fh, ngramlen)
     mem(extra_var, iterator, output_fh, ngram_length, ng_frame)
 
+    print("INIT TIME")
+    print('index:', timeit(stmt='extra, it, out, n = general_setup(setup_index, "{0}", {1})'.format(in_fh, ngramlen),
+                           globals=globals(), number=30))
+    print('iter:', timeit(stmt='extra, it, out, n = general_setup(setup_iter, "{0}", {1})'.format(in_fh, ngramlen),
+                          globals=globals(), number=30))
+    print('frame:', timeit(stmt='extra, it, out, n = general_setup(setup_frame, "{0}", {1})'.format(in_fh, ngramlen),
+                           globals=globals(), number=30))
+
     print('TIME')
     print('index:', timeit(setup='extra, it, out, n = general_setup(setup_index, "{0}", {1})'.format(in_fh, ngramlen),
                            stmt='tim(extra, it, out, n, ng_index)', globals=globals(), number=30))
