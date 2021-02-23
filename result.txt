@@ -1,37 +1,192 @@
-Creating dummy text file
-Starting measurements
-MEMORY
-index
+Starting measurements: 3-gram, words -------------------------------
+
+MEMORY USAGE
+
+Index:
 Filename: ngram.py
 
 Line #    Mem usage    Increment   Line Contents
 ================================================
-    58     20.1 MiB     20.1 MiB   @profile
-    59                             def mem(extra, inp, out, n, fun):
-    60     20.1 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+    69     27.3 MiB     27.3 MiB   @profile
+    70                             def mem(extra, inp, out, n, fun):
+    71     27.3 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
 
 
-iter
+Iter.:
 Filename: ngram.py
 
 Line #    Mem usage    Increment   Line Contents
 ================================================
-    58     14.6 MiB     14.6 MiB   @profile
-    59                             def mem(extra, inp, out, n, fun):
-    60     14.6 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+    69     15.1 MiB     15.1 MiB   @profile
+    70                             def mem(extra, inp, out, n, fun):
+    71     15.1 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
 
 
-frame
+Frame:
 Filename: ngram.py
 
 Line #    Mem usage    Increment   Line Contents
 ================================================
-    58     14.6 MiB     14.6 MiB   @profile
-    59                             def mem(extra, inp, out, n, fun):
-    60     14.6 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+    69     15.1 MiB     15.1 MiB   @profile
+    70                             def mem(extra, inp, out, n, fun):
+    71     15.1 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
 
 
-TIME
-index: 33.22100492299978
-iter: 1.2606244640010118
-frame: 2.135762376999992
+
+INIT TIME
+
+Index: 0.3778390697 (0.3765481840, 0.3844190390, 0.3725499860)
+Iter.: 0.0005265387 (0.0006002380, 0.0004916490, 0.0004877290)
+Frame: 0.0006235933 (0.0007001390, 0.0005861940, 0.0005844470)
+
+RUNNING TIME
+
+Index: 3.7123088383 (3.6917714730, 3.7427074530, 3.7024475890)
+Iter.: 0.4079951677 (0.4132073490, 0.3993392350, 0.4114389190)
+Frame: 0.6537667193 (0.6792718400, 0.6448071400, 0.6372211780)
+
+Starting measurements: 3-gram, characters --------------------------
+
+MEMORY USAGE
+
+Index:
+Filename: ngram.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    69     25.7 MiB     25.7 MiB   @profile
+    70                             def mem(extra, inp, out, n, fun):
+    71     25.7 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+
+
+Iter.:
+Filename: ngram.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    69     14.5 MiB     14.5 MiB   @profile
+    70                             def mem(extra, inp, out, n, fun):
+    71     14.5 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+
+
+Frame:
+Filename: ngram.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    69     14.5 MiB     14.5 MiB   @profile
+    70                             def mem(extra, inp, out, n, fun):
+    71     14.5 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+
+
+
+INIT TIME
+
+Index: 3.4401735867 (4.1697507370, 3.1214213430, 3.0293486800)
+Iter.: 0.0005205033 (0.0005732160, 0.0004960980, 0.0004921960)
+Frame: 0.0006332187 (0.0006718160, 0.0006026890, 0.0006251510)
+
+RUNNING TIME
+
+Index: 24.8569671503 (24.9058464220, 24.1979744050, 25.4670806240)
+Iter.: 2.5768538500 (2.5672087410, 2.5933917090, 2.5699611000)
+Frame: 4.5641470270 (4.4782809740, 4.4884697250, 4.7256903820)
+
+Starting measurements: 5-gram, words -------------------------------
+
+MEMORY USAGE
+
+Index:
+Filename: ngram.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    69     27.4 MiB     27.4 MiB   @profile
+    70                             def mem(extra, inp, out, n, fun):
+    71     27.4 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+
+
+Iter.:
+Filename: ngram.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    69     15.1 MiB     15.1 MiB   @profile
+    70                             def mem(extra, inp, out, n, fun):
+    71     15.1 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+
+
+Frame:
+Filename: ngram.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    69     15.1 MiB     15.1 MiB   @profile
+    70                             def mem(extra, inp, out, n, fun):
+    71     15.1 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+
+
+
+INIT TIME
+
+Index: 0.4154008957 (0.4202582010, 0.4092919580, 0.4166525280)
+Iter.: 0.0005189503 (0.0005698720, 0.0004928560, 0.0004941230)
+Frame: 0.0006127803 (0.0006241350, 0.0006279330, 0.0005862730)
+
+RUNNING TIME
+
+Index: 5.6049201603 (6.0694240670, 5.5767490720, 5.1685873420)
+Iter.: 0.4954223473 (0.4966337620, 0.4953919840, 0.4942412960)
+Frame: 0.7545285623 (0.7534906090, 0.7514744320, 0.7586206460)
+
+Starting measurements: 5-gram, characters --------------------------
+
+MEMORY USAGE
+
+Index:
+Filename: ngram.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    69     25.9 MiB     25.9 MiB   @profile
+    70                             def mem(extra, inp, out, n, fun):
+    71     25.9 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+
+
+Iter.:
+Filename: ngram.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    69     14.7 MiB     14.7 MiB   @profile
+    70                             def mem(extra, inp, out, n, fun):
+    71     14.7 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+
+
+Frame:
+Filename: ngram.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    69     14.7 MiB     14.7 MiB   @profile
+    70                             def mem(extra, inp, out, n, fun):
+    71     14.7 MiB      0.0 MiB       tim(extra, inp, out, n, fun)
+
+
+
+INIT TIME
+
+Index: 3.2518632550 (3.0886114460, 3.6804527560, 2.9865255630)
+Iter.: 0.0005210100 (0.0005650590, 0.0005119500, 0.0004860210)
+Frame: 0.0006136840 (0.0006679610, 0.0005870950, 0.0005859960)
+
+RUNNING TIME
+
+Index: 25.7369922930 (25.7825556340, 26.3144732510, 25.1139479940)
+Iter.: 2.6136844797 (2.6470296870, 2.5984881260, 2.5955356260)
+Frame: 4.4870589130 (4.4798124400, 4.5006896430, 4.4806746560)
+
+
+real	5m55,903s
+user	5m53,623s
+sys	0m1,819s

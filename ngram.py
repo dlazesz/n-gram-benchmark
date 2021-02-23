@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8, vim: expandtab:ts=4 -*-
 
-import argparse
-
-from memory_profiler import profile
-from timeit import timeit
+import sys
+from os import devnull
+from timeit import repeat
 from collections import deque
 from itertools import islice, tee
+from argparse import ArgumentParser
+
+from memory_profiler import profile
 
 
 def setup_index(it, n):
@@ -30,7 +33,7 @@ def ng_iter(ngram_it, _, __):
 def setup_frame(it, n):
     it = iter(it)
     frame = deque(maxlen=n)
-    for _ in range(1, n):
+    for _ in range(n-1):
         frame.append(next(it))
     return frame, it
 
@@ -41,17 +44,25 @@ def ng_frame(frame, it, _):
         yield frame
 
 
-def readbybyte(fileobj):
-    byte = fileobj.read(1)
-    while byte:
-        yield byte
-        byte = fileobj.read(1)
+def readbycharacters(fileobj, _):
+    character = fileobj.read(1)  # Read file by characters
+    while character:
+        yield character
+        character = fileobj.read(1)
 
 
-def general_setup(setup_fun, inp_file, n):
-    inp_fh = open(inp_file)
-    out_fh = open('/dev/null', 'w')
-    extra, it = setup_fun(readbybyte(inp_fh), n)
+def readbywords(fileobj, n):
+    for line in fileobj:  # This simulates reading line by line, which is slower than reading the entire file at once
+        for word in line.strip().split(' '):
+            yield word
+        for _ in range(n-1):  # To handle each line separately simulating sentence per line (SPL) format
+            yield 'DUMMY WORD'
+
+
+def general_setup(read_function, setup_function, inp_file, n):
+    inp_fh = open(inp_file, encoding='UTF-8')
+    out_fh = open(devnull, 'w', encoding='UTF-8')
+    extra, it = setup_function(read_function(inp_fh, n), n)
     return extra, it, out_fh, n
 
 
@@ -66,43 +77,45 @@ def tim(extra, inp, out, n, fun):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '--input-file', '-i',
-        help='Input file',
-        type=str)
-    parser.add_argument(
-        '--ngram-length', '-n',
-        help='n-gram length',
-        type=int)
+    parser = ArgumentParser()
+    parser.add_argument('--input-file', '-i', help='Input file', type=str)
+    parser.add_argument('--ngram-length', '-n', help='n-gram length', type=int)
+    parser.add_argument('--read-unit', '-u', choices=['words', 'characters'], help='Read by words or characters',
+                        type=str)
 
     args = parser.parse_args()
-    in_fh = args.input_file
+    if any(arg is None for arg in vars(args).values()):
+        parser.print_help(sys.stderr)
+        exit(2)
+
+    in_file = args.input_file
     ngramlen = args.ngram_length
+    if args.read_unit == 'words':
+        read_fun = readbywords
+    else:
+        read_fun = readbycharacters
 
-    print('MEMORY')
-    print('index')
-    extra_var, iterator, output_fh, ngram_length = general_setup(setup_index, in_fh, ngramlen)
-    mem(extra_var, iterator, output_fh, ngram_length, ng_index)
-    print('iter')
-    extra_var, iterator, output_fh, ngram_length = general_setup(setup_iter, in_fh, ngramlen)
-    mem(extra_var, iterator, output_fh, ngram_length, ng_iter)
-    print('frame')
-    extra_var, iterator, output_fh, ngram_length = general_setup(setup_frame, in_fh, ngramlen)
-    mem(extra_var, iterator, output_fh, ngram_length, ng_frame)
+    alternatvies = (('Index:', setup_index, ng_index),
+                    ('Iter.:', setup_iter, ng_iter),
+                    ('Frame:', setup_frame, ng_frame))
 
-    print("INIT TIME")
-    print('index:', timeit(stmt='extra, it, out, n = general_setup(setup_index, "{0}", {1})'.format(in_fh, ngramlen),
-                           globals=globals(), number=30))
-    print('iter:', timeit(stmt='extra, it, out, n = general_setup(setup_iter, "{0}", {1})'.format(in_fh, ngramlen),
-                          globals=globals(), number=30))
-    print('frame:', timeit(stmt='extra, it, out, n = general_setup(setup_frame, "{0}", {1})'.format(in_fh, ngramlen),
-                           globals=globals(), number=30))
+    print('', 'MEMORY USAGE', '', sep='\n')
+    for name, setup_fun, ngram_fun in alternatvies:
+        print(name)
+        extra_var, iterator, output_fh, ngram_length = general_setup(read_fun, setup_fun, in_file, ngramlen)
+        mem(extra_var, iterator, output_fh, ngram_length, ngram_fun)
 
-    print('TIME')
-    print('index:', timeit(setup='extra, it, out, n = general_setup(setup_index, "{0}", {1})'.format(in_fh, ngramlen),
-                           stmt='tim(extra, it, out, n, ng_index)', globals=globals(), number=30))
-    print('iter:', timeit(setup='extra, it, out, n = general_setup(setup_iter, "{0}", {1})'.format(in_fh, ngramlen),
-                          stmt='tim(extra, it, out, n, ng_iter)', globals=globals(), number=30))
-    print('frame:', timeit(setup='extra, it, out, n = general_setup(setup_frame, "{0}", {1})'.format(in_fh, ngramlen),
-                           stmt='tim(extra, it, out, n, ng_frame)', globals=globals(), number=30))
+    print('', 'INIT TIME', '', sep='\n')
+    for name, setup_fun, _ in alternatvies:
+        res = repeat(stmt='extra, it, out, n = general_setup(read_fun, {0}, "{1}", {2})'.
+                     format(setup_fun.__name__, in_file, ngramlen), globals=globals(), number=10, repeat=3)
+        print(name, f'{sum(res)/len(res):.10f}', '(' + ', '.join(f'{r:.10f}' for r in res) + ')')
+
+    print('', 'RUNNING TIME', '', sep='\n')
+    for name, setup_fun, ngram_fun in alternatvies:
+        res = repeat(setup='extra, it, out, n = general_setup(read_fun, {0}, "{1}", {2})'.
+                     format(setup_fun.__name__, in_file, ngramlen),
+                     stmt='tim(extra, it, out, n, {0})'.format(ngram_fun.__name__), globals=globals(), number=10,
+                     repeat=3)
+        print(name, f'{sum(res)/len(res):.10f}', '(' + ', '.join(f'{r:.10f}' for r in res) + ')')
+    print()
