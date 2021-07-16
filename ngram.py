@@ -6,6 +6,7 @@ from os import devnull
 from timeit import repeat
 from collections import deque
 from itertools import islice, tee
+from more_itertools import windowed
 from argparse import ArgumentParser
 
 from memory_profiler import profile
@@ -26,6 +27,15 @@ def setup_iter(it, n):
 
 
 def ng_iter(ngram_it, _, __):
+    for ngram in ngram_it:
+        yield ngram
+
+
+def setup_windowed(it, n):
+    return windowed(it, n), None
+
+
+def ng_windowed(ngram_it, _, __):
     for ngram in ngram_it:
         yield ngram
 
@@ -97,6 +107,7 @@ if __name__ == '__main__':
 
     alternatvies = (('Index:', setup_index, ng_index),
                     ('Iter.:', setup_iter, ng_iter),
+                    ('Windo:', setup_windowed, ng_windowed),
                     ('Frame:', setup_frame, ng_frame))
 
     print('', 'MEMORY USAGE', '', sep='\n')
