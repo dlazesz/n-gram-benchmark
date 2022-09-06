@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "n-gram-benchmark"
+version = "1.0.0"
+description = "Scripts for benchmarking n-gram creation methods"
+readme = "README.md"
+repository = "https://github.com/dlazesz/n-gram-benchmark"
+authors = ["mittelholcz", "sassbalint", "nyekibence", "dlazesz"]
+
+license = "MIT"
+# License and required Python version is automatically added
+classifiers = [
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+memory-profiler = "^0.57.0"
+more_itertools = "^8.9.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
