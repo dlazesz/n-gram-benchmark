@@ -86,7 +86,7 @@ def tim(extra, inp, out, n, fun):
         print(ng, file=out)
 
 
-if __name__ == '__main__':
+def main():
     parser = ArgumentParser()
     parser.add_argument('--input-file', '-i', help='Input file', type=str)
     parser.add_argument('--ngram-length', '-n', help='n-gram length', type=int)
@@ -105,28 +105,32 @@ if __name__ == '__main__':
     else:
         read_fun = readbycharacters
 
-    alternatvies = (('Index:', setup_index, ng_index),
+    alternatives = (('Index:', setup_index, ng_index),
                     ('Iter.:', setup_iter, ng_iter),
                     ('Windo:', setup_windowed, ng_windowed),
                     ('Frame:', setup_frame, ng_frame))
 
     print('', 'MEMORY USAGE', '', sep='\n')
-    for name, setup_fun, ngram_fun in alternatvies:
+    for name, setup_fun, ngram_fun in alternatives:
         print(name)
         extra_var, iterator, output_fh, ngram_length = general_setup(read_fun, setup_fun, in_file, ngramlen)
         mem(extra_var, iterator, output_fh, ngram_length, ngram_fun)
 
     print('', 'INIT TIME', '', sep='\n')
-    for name, setup_fun, _ in alternatvies:
+    for name, setup_fun, _ in alternatives:
         res = repeat(stmt='extra, it, out, n = general_setup(read_fun, {0}, "{1}", {2})'.
                      format(setup_fun.__name__, in_file, ngramlen), globals=globals(), number=10, repeat=3)
         print(name, f'{sum(res)/len(res):.10f}', '(' + ', '.join(f'{r:.10f}' for r in res) + ')')
 
     print('', 'RUNNING TIME', '', sep='\n')
-    for name, setup_fun, ngram_fun in alternatvies:
+    for name, setup_fun, ngram_fun in alternatives:
         res = repeat(setup='extra, it, out, n = general_setup(read_fun, {0}, "{1}", {2})'.
                      format(setup_fun.__name__, in_file, ngramlen),
                      stmt='tim(extra, it, out, n, {0})'.format(ngram_fun.__name__), globals=globals(), number=10,
                      repeat=3)
         print(name, f'{sum(res)/len(res):.10f}', '(' + ', '.join(f'{r:.10f}' for r in res) + ')')
     print()
+
+
+if __name__ == '__main__':
+    main()
